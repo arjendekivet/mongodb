@@ -1,4 +1,4 @@
-# NodJs server connecting to MongoDb via API
+# NodeJs server connecting to MongoDb via API
 
 ## MongoDb
 ### To start the service
