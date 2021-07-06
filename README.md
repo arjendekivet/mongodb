@@ -10,7 +10,7 @@ brew services start mongodb-community@4.4
 brew services stop mongodb-community@4.4
 ```
 
-# To run the node server that connect to MongoDb via API
+# Run NodeJs server, connecting to MongoDb via API
 ```console
 node server
 ```
