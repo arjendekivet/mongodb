@@ -5,10 +5,9 @@ import moduleMongodb from 'mongodb'
 const { MongoClient } = moduleMongodb
 
 const connectionUri = 'mongodb://localhost:27017'
-let client
 
 export async function clientConnect() {
-  return (client = await (() =>
+  return await (() =>
     new Promise((resolve, reject) =>
       MongoClient.connect(
         connectionUri,
@@ -18,7 +17,7 @@ export async function clientConnect() {
           resolve(client)
         }
       )
-    ))())
+    ))()
 }
 export async function clientClose(client) {
   client.close()
