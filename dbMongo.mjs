@@ -1,4 +1,6 @@
 import { strictEqual } from 'assert';
+
+// mongodb is a CommonJS module.
 import moduleMongodb from 'mongodb';
 const { MongoClient } = moduleMongodb;
 

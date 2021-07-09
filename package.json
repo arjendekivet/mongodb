@@ -2,7 +2,8 @@
   "name": "mongodb",
   "version": "1.0.0",
   "description": "NodeJs with Express and MongoDB",
-  "main": "server.js",
+  "main": "server.mjs",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
