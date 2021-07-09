@@ -1,6 +1,6 @@
-const express = require("express");
+import express from "express";
 const app = express();
-const { getEvents } = require('./events');
+import { getEvents } from './routeEvents.mjs';
 
 app.listen(3001, function () {
   console.log('Server started on port 3001');
