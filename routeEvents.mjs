@@ -1,4 +1,4 @@
-import { clientConnect, clientClose } from './dbMongo.mjs';
+import { clientConnect, clientClose } from './dbMongo.mjs'
 
 export async function getEvents(username) {
   return await (() =>
@@ -10,9 +10,9 @@ export async function getEvents(username) {
           .collection('events')
           .find({})
           .toArray((err, data) => {
-            clientClose(client);
-            resolve(data);
-          });
+            clientClose(client)
+            resolve(data)
+          })
       })
-    ))();
+    ))()
 }
