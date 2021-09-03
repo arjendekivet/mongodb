@@ -10,8 +10,12 @@ export async function getEvents(username) {
           .collection('events')
           .find({})
           .toArray((err, data) => {
-            clientClose(client)
-            resolve(data)
+            if (err) {
+              reject(err)
+            } else {
+              clientClose(client)
+              resolve(data)
+            }
           })
       })
     ))()
