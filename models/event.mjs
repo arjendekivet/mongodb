@@ -12,8 +12,11 @@ const EventSchema = new Schema({
   id: {
     type: Number,
   },
+  date: {
+    type: Date,
+  },
 })
 
-const Event = mongoose.model('event', EventSchema)
+const Event = mongoose.model('events', EventSchema)
 
 export default Event
