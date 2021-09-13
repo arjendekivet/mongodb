@@ -1,6 +1,7 @@
 import express from 'express'
 const app = express()
-import { getEvents, getEventById } from './routeEvents.mjs'
+app.use(express.json())
+import { getEvents, getEventById, postQuestion } from './routeEvents.mjs'
 
 app.listen(4321, function () {
   console.log('Server started on port 4321')
@@ -26,7 +27,12 @@ app.listen(4321, function () {
   })
 
   app.post('/question', (req, res) => {
-    const { comment } = req.body
-    res.send({ html: marked(comment.trim()) })
+    postQuestion(req.body)
+      .then((data) => {
+        res.send({ succes: true, data: data })
+      })
+      .catch((e) => {
+        next(e)
+      })
   })
 })

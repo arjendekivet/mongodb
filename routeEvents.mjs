@@ -39,3 +39,20 @@ export async function getEventById(id) {
       })
     ))()
 }
+
+export async function postQuestion(data) {
+  return await (() =>
+    new Promise((resolve, reject) =>
+      clientConnect().then((client) => {
+        client
+          .db('myNewDatabase')
+          .collection('questions')
+          .insertOne(data)
+          .then((result) => {
+            clientClose(client)
+            resolve(result)
+          })
+          .catch((error) => reject(err))
+      })
+    ))()
+}
