@@ -22,6 +22,6 @@ app.use(function (err, req, res, next) {
 })
 
 // listen for requests
-app.listen(process.env.port || 4000, function () {
-  console.log('Ready to Go!')
+app.listen(process.env.port || 4321, function () {
+  console.log('Ready to Go on port 4321 ...')
 })

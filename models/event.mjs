@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
-// create student schema & model
+// create event schema & model
 const EventSchema = new Schema({
   title: {
     type: String,
