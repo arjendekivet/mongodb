@@ -40,7 +40,7 @@ router.put('/questions/:id', function (req, res, next) {
   Question.findOneAndUpdate({ _id: req.params.id }, req.body).then(function (
     question
   ) {
-    Event.findOne({ _id: req.params.id }).then(function (question) {
+    Question.findOne({ _id: req.params.id }).then(function (question) {
       res.send(question)
     })
   })
