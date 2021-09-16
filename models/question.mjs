@@ -14,9 +14,11 @@ const QuestionSchema = new Schema(
     description: {
       type: String,
     },
-    created: {
+    answer: {
+      type: String,
+    },
+    due: {
       type: Date,
-      default: Date.now,
     },
   },
   {
