@@ -19,7 +19,7 @@ router.get('/questions', function (req, res, next) {
 
 // get one question by ID from the database
 router.get('/questions/:id', function (req, res, next) {
-  Question.findOne({ id: req.params.id })
+  Question.findById(req.params.id)
     .then(function (questions) {
       res.send(questions)
     })
