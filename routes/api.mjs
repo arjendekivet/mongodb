@@ -37,20 +37,22 @@ router.post('/questions', function (req, res, next) {
 
 // update a question in the database
 router.put('/questions/:id', function (req, res, next) {
-  Question.findOneAndUpdate({ _id: req.params.id }, req.body).then(function (
-    question
-  ) {
-    Question.findOne({ _id: req.params.id }).then(function (question) {
-      res.send(question)
+  Question.findOneAndUpdate({ _id: req.params.id }, req.body)
+    .then(function (question) {
+      Question.findOne({ _id: req.params.id }).then(function (question) {
+        res.send(question)
+      })
     })
-  })
+    .catch(next)
 })
 
 // delete a question in the database
 router.delete('/questions/:id', function (req, res, next) {
-  Question.findOneAndDelete({ _id: req.params.id }).then(function (question) {
-    res.send(question)
-  })
+  Question.findOneAndDelete({ _id: req.params.id })
+    .then(function (question) {
+      res.send(question)
+    })
+    .catch(next)
 })
 
 //
@@ -86,20 +88,22 @@ router.post('/events', function (req, res, next) {
 
 // update a event in the database
 router.put('/events/:id', function (req, res, next) {
-  Event.findOneAndUpdate({ _id: req.params.id }, req.body).then(function (
-    event
-  ) {
-    Event.findOne({ _id: req.params.id }).then(function (event) {
-      res.send(event)
+  Event.findOneAndUpdate({ _id: req.params.id }, req.body)
+    .then(function (event) {
+      Event.findOne({ _id: req.params.id }).then(function (event) {
+        res.send(event)
+      })
     })
-  })
+    .catch(next)
 })
 
 // delete a event in the database
 router.delete('/events/:id', function (req, res, next) {
-  Event.findOneAndDelete({ _id: req.params.id }).then(function (event) {
-    res.send(event)
-  })
+  Event.findOneAndDelete({ _id: req.params.id })
+    .then(function (event) {
+      res.send(event)
+    })
+    .catch(next)
 })
 
 export default router
