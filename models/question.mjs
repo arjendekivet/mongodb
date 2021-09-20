@@ -17,7 +17,7 @@ const QuestionSchema = new Schema(
     cat_2: {
       type: String,
     },
-    cat_2: {
+    cat_3: {
       type: String,
     },
     description: {
