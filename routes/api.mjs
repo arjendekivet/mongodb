@@ -26,6 +26,15 @@ router.get('/questions/:id', function (req, res, next) {
     .catch(next)
 })
 
+// get questions by FILTER from the database
+router.get('/questions/filter/:filter', function (req, res, next) {
+  Question.find({ title: { $regex: '.*' + req.params.filter + '.*' } })
+    .then(function (questions) {
+      res.send(questions)
+    })
+    .catch(next)
+})
+
 // add a new question to database
 router.post('/questions', function (req, res, next) {
   Question.create(req.body)
