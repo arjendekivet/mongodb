@@ -56,8 +56,21 @@ router.put('/questions/:id', function (req, res, next) {
 })
 
 // delete a question in the database
-router.delete('/questions/:id', function (req, res, next) {
+router.delete('/question/:id', function (req, res, next) {
   Question.findOneAndDelete({ _id: req.params.id })
+    .then(function (question) {
+      res.send(question)
+    })
+    .catch(next)
+})
+
+router.delete('/questions/:ids', function (req, res, next) {
+  const ids = req.params.ids.split(',')
+  Question.deleteMany({
+    _id: {
+      $in: ids,
+    },
+  })
     .then(function (question) {
       res.send(question)
     })
