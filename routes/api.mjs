@@ -1,6 +1,7 @@
 import express from 'express'
 import Event from '../models/event.mjs'
 import Question from '../models/question.mjs'
+import FormDefinition from '../models/formDefinition.mjs'
 
 const router = express.Router()
 
@@ -10,7 +11,7 @@ const router = express.Router()
 
 // get a list of questions from the database
 router.get('/questions', function (req, res, next) {
-  Question.find({})
+  Question.find({}, null, { sort: { title: 1 }, collation: { locale: 'en' } })
     .then(function (questions) {
       res.send(questions)
     })
@@ -28,7 +29,10 @@ router.get('/questions/:id', function (req, res, next) {
 
 // get questions by FILTER from the database
 router.get('/questions/filter/:filter', function (req, res, next) {
-  Question.find({ title: { $regex: '.*' + req.params.filter + '.*' } })
+  Question.find({ title: { $regex: '.*' + req.params.filter + '.*' } }, null, {
+    sort: { title: 1 },
+    collation: { locale: 'en' },
+  })
     .then(function (questions) {
       res.send(questions)
     })
@@ -73,6 +77,86 @@ router.delete('/questions/:ids', function (req, res, next) {
   })
     .then(function (question) {
       res.send(question)
+    })
+    .catch(next)
+})
+
+//
+// FormDefinition
+//
+
+// get a list of questions from the database
+router.get('/formdefinition', function (req, res, next) {
+  FormDefinition.find({}, null, {
+    sort: { title: 1 },
+    collation: { locale: 'en' },
+  })
+    .then(function (result) {
+      res.send(result)
+    })
+    .catch(next)
+})
+
+// get one question by ID from the database
+router.get('/formdefinition/:id', function (req, res, next) {
+  FormDefinition.findById(req.params.id)
+    .then(function (result) {
+      res.send(result)
+    })
+    .catch(next)
+})
+
+// get questions by FILTER from the database
+router.get('/formdefinition/filter/:filter', function (req, res, next) {
+  FormDefinition.find(
+    { title: { $regex: '.*' + req.params.filter + '.*' } },
+    null,
+    { sort: { title: 1 }, collation: { locale: 'en' } }
+  )
+    .then(function (result) {
+      res.send(result)
+    })
+    .catch(next)
+})
+
+// add a new question to database
+router.post('/formdefinition', function (req, res, next) {
+  FormDefinition.create(req.body)
+    .then(function (result) {
+      res.send(result)
+    })
+    .catch(next)
+})
+
+// update a question in the database
+router.put('/formdefinition/:id', function (req, res, next) {
+  FormDefinition.findOneAndUpdate({ _id: req.params.id }, req.body)
+    .then(function () {
+      FormDefinition.findOne({ _id: req.params.id }).then(function (result) {
+        res.send(result)
+      })
+    })
+    .catch(next)
+})
+
+// delete a question in the database
+router.delete('/formdefinition/:id', function (req, res, next) {
+  FormDefinition.findOneAndDelete({ _id: req.params.id })
+    .then(function (result) {
+      res.send(result)
+    })
+    .catch(next)
+})
+
+router.delete('/formdefinition/:ids', function (req, res, next) {
+  const ids = req.params.ids.split(',')
+  FormDefinition.deleteMany({
+    _id: {
+      $in: ids,
+    },
+  })
+    .then(function (result) {
+      res.send(result)
     })
     .catch(next)
 })
