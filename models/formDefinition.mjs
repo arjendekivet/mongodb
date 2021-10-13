@@ -9,7 +9,7 @@ const FormDefinitionSchema = new Schema(
       required: [true, 'Title field is required'],
     },
     formDefinition: {
-      type: String,
+      type: Object,
     },
   },
   {

@@ -106,7 +106,7 @@ router.get('/formdefinition/:id', function (req, res, next) {
     .catch(next)
 })
 
-// get questions by FILTER from the database
+// get by FILTER from the database
 router.get('/formdefinition/filter/:filter', function (req, res, next) {
   FormDefinition.find(
     { title: { $regex: '.*' + req.params.filter + '.*' } },
@@ -119,7 +119,7 @@ router.get('/formdefinition/filter/:filter', function (req, res, next) {
     .catch(next)
 })
 
-// add a new question to database
+// add a new document to database
 router.post('/formdefinition', function (req, res, next) {
   FormDefinition.create(req.body)
     .then(function (result) {
@@ -128,22 +128,13 @@ router.post('/formdefinition', function (req, res, next) {
     .catch(next)
 })
 
-// update a question in the database
+// update a document in the database
 router.put('/formdefinition/:id', function (req, res, next) {
   FormDefinition.findOneAndUpdate({ _id: req.params.id }, req.body)
     .then(function () {
       FormDefinition.findOne({ _id: req.params.id }).then(function (result) {
         res.send(result)
       })
-    })
-    .catch(next)
-})
-
-// delete a question in the database
-router.delete('/formdefinition/:id', function (req, res, next) {
-  FormDefinition.findOneAndDelete({ _id: req.params.id })
-    .then(function (result) {
-      res.send(result)
     })
     .catch(next)
 })
