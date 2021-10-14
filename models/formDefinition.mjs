@@ -8,6 +8,17 @@ const FormDefinitionSchema = new Schema(
       type: String,
       required: [true, 'Title field is required'],
     },
+    label: {
+      type: String,
+      required: [true, 'Label field is required'],
+    },
+    type: {
+      type: String,
+      required: [true, 'Type field is required'],
+    },
+    layoutKey: {
+      type: String,
+    },
     formDefinition: {
       type: Object,
     },
