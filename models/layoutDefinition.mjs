@@ -19,7 +19,7 @@ const LayoutDefinitionSchema = new Schema(
     layoutKey: {
       type: String,
     },
-    formDefinition: {
+    config: {
       type: Object,
     },
   },
