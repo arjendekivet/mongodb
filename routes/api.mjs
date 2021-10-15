@@ -1,5 +1,5 @@
 import express from 'express'
-import Event from '../models/event.mjs'
+import LayoutDefinition from '../models/layoutDefinition.mjs'
 import Question from '../models/question.mjs'
 import FormDefinition from '../models/formDefinition.mjs'
 
@@ -153,52 +153,72 @@ router.delete('/formdefinition/:ids', function (req, res, next) {
 })
 
 //
-// EVENT
+// LayoutDefinition
 //
 
-// get a list of events from the database
-router.get('/events', function (req, res, next) {
-  Event.find({})
-    .then(function (events) {
-      res.send(events)
+// get a list of questions from the database
+router.get('/layoutdefinition', function (req, res, next) {
+  LayoutDefinition.find({}, null, {
+    sort: { title: 1 },
+    collation: { locale: 'en' },
+  })
+    .then(function (result) {
+      res.send(result)
     })
     .catch(next)
 })
 
-// get one event by ID from the database
-router.get('/events/:id', function (req, res, next) {
-  Event.findOne({ id: req.params.id })
-    .then(function (events) {
-      res.send(events)
+// get one question by ID from the database
+router.get('/layoutdefinition/:id', function (req, res, next) {
+  LayoutDefinition.findById(req.params.id)
+    .then(function (result) {
+      res.send(result)
     })
     .catch(next)
 })
 
-// add a new event to database
-router.post('/events', function (req, res, next) {
-  Event.create(req.body)
-    .then(function (event) {
-      res.send(event)
+// get by FILTER from the database
+router.get('/layoutdefinition/filter/:filter', function (req, res, next) {
+  LayoutDefinition.find(
+    { title: { $regex: '.*' + req.params.filter + '.*' } },
+    null,
+    { sort: { title: 1 }, collation: { locale: 'en' } }
+  )
+    .then(function (result) {
+      res.send(result)
     })
     .catch(next)
 })
 
-// update a event in the database
-router.put('/events/:id', function (req, res, next) {
-  Event.findOneAndUpdate({ _id: req.params.id }, req.body)
-    .then(function (event) {
-      Event.findOne({ _id: req.params.id }).then(function (event) {
-        res.send(event)
+// add a new document to database
+router.post('/layoutdefinition', function (req, res, next) {
+  LayoutDefinition.create(req.body)
+    .then(function (result) {
+      res.send(result)
+    })
+    .catch(next)
+})
+
+// update a document in the database
+router.put('/layoutdefinition/:id', function (req, res, next) {
+  LayoutDefinition.findOneAndUpdate({ _id: req.params.id }, req.body)
+    .then(function () {
+      LayoutDefinition.findOne({ _id: req.params.id }).then(function (result) {
+        res.send(result)
       })
     })
     .catch(next)
 })
 
-// delete a event in the database
-router.delete('/events/:id', function (req, res, next) {
-  Event.findOneAndDelete({ _id: req.params.id })
-    .then(function (event) {
-      res.send(event)
+router.delete('/layoutdefinition/:ids', function (req, res, next) {
+  const ids = req.params.ids.split(',')
+  LayoutDefinition.deleteMany({
+    _id: {
+      $in: ids,
+    },
+  })
+    .then(function (result) {
+      res.send(result)
     })
     .catch(next)
 })
