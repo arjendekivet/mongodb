@@ -2,7 +2,26 @@ import express from 'express'
 import LayoutDefinition from '../models/layoutDefinition.mjs'
 import Question from '../models/question.mjs'
 
+import verifySignUp from '../app/middlewares/verifySignUp.js'
+import controller from '../app/controllers/auth.controller.js'
+
 const router = express.Router()
+
+//
+// AUTHENICATION
+//
+
+// router.get('/auth/signup', function (req, res, next) {
+//   res.send('pipo')
+// })
+
+//[verifySignUp.checkDuplicateUsernameOrEmail, verifySignUp.checkRolesExisted],
+// router.post('/auth/signup', function (req, res, next) {
+//   res.send('pipo')
+//   // controller.signup(req, res)
+// })
+
+// router.post('/auth/signin', controller.signin)
 
 //
 // QUESTION
