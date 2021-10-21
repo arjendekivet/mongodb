@@ -3,11 +3,11 @@ import mongoose from 'mongoose'
 import routes from './routes/api.mjs'
 
 import dbConfig from './config/db.config.js'
-import auth from './app/routes/auth.routes.js'
-import user from './app/routes/user.routes.js'
-import initial from './app/controllers/initial.mjs'
+import auth from './authentication/routes/auth.routes.js'
+import user from './authentication/routes/user.routes.js'
+import initial from './authentication/controllers/initial.mjs'
 
-import { authJwt } from './app/middlewares/index.js'
+import { authJwt } from './authentication/middlewares/index.js'
 
 // set up our express app
 const app = express()
