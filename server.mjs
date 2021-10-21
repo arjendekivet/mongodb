@@ -7,13 +7,14 @@ import auth from './app/routes/auth.routes.js'
 import user from './app/routes/user.routes.js'
 import initial from './app/controllers/initial.mjs'
 
+import { authJwt } from './app/middlewares/index.js'
+
 // set up our express app
 const app = express()
 
-// connect to mongodb
-// mongoose.connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`)
 mongoose.Promise = global.Promise
 
+// connect to mongodb
 //, {useNewUrlParser: true,useUnifiedTopology: true,}
 mongoose
   .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`)
@@ -29,6 +30,18 @@ mongoose
 app.use(express.static('public'))
 
 app.use(express.json())
+
+// Your own super cool function
+const verifyToken = function (req, res, next) {
+  console.log(req.path)
+  if (req.path === '/api/auth/signin' || req.path === '/api/auth/signup') {
+    next() // Passing the request to the next handler in the stack.
+  } else {
+    authJwt.verifyToken(req, res, next)
+  }
+}
+
+app.use(verifyToken) // Here you add your logger to the stack.
 
 // dynamic auth routes
 auth(app)

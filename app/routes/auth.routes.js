@@ -10,11 +10,6 @@ module.exports = function (app) {
     next()
   })
 
-  app.get('/api/auth/signup', function (req, res, next) {
-    res.status(200).send('pipo ...')
-    // res.send('pipo')
-  })
-
   app.post(
     '/api/auth/signup',
     [
