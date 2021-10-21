@@ -34,7 +34,7 @@ app.use(express.json())
 // Your own super cool function
 const verifyToken = function (req, res, next) {
   console.log(req.path)
-  if (req.path === '/api/auth/signin' || req.path === '/api/auth/signup') {
+  if (req.path === '/api/auth/signin') {
     next() // Passing the request to the next handler in the stack.
   } else {
     authJwt.verifyToken(req, res, next)
