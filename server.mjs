@@ -2,7 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import routes from './routes/api.mjs'
 
-import dbConfig from './app/config/db.config.js'
+import dbConfig from './config/db.config.js'
 import auth from './app/routes/auth.routes.js'
 import user from './app/routes/user.routes.js'
 import initial from './app/controllers/initial.mjs'
