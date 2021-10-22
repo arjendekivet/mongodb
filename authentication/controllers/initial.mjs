@@ -33,17 +33,30 @@ const initial = function initial() {
         console.log("added 'admin' to roles collection")
       })
 
-      new User({
-        username: 'admin',
-        email: 'no email',
-        password: 'admin',
-        roles: ['admin', 'moderator', 'user'],
-      }).save((err) => {
-        if (err) {
-          console.log('error', err)
+      let roles
+      Role.find(
+        { name: { $in: ['admin', 'moderator', 'user'] } },
+        (err, roles) => {
+          if (err) {
+            console.log(error)
+            return
+          }
+          roles = roles.map((role) => role._id)
+          new User({
+            username: 'admin',
+            email: 'no email',
+            password: 'admin',
+            roles: roles,
+          }).save((err) => {
+            if (err) {
+              console.log('error', err)
+            }
+            console.log(
+              "added 'admin' to users collection, with password=admin"
+            )
+          })
         }
-        console.log("added 'admin' to users collection, with password=admin")
-      })
+      )
     }
   })
 }
