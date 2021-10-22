@@ -4,6 +4,20 @@ import db from '../models/index.js'
 const Role = db.role
 const User = db.user
 
+function createAdmin(role) {
+  new User({
+    username: 'admin',
+    email: 'no email',
+    password: bcrypt.hashSync('admin', 8),
+    roles: [role],
+  }).save((err) => {
+    if (err) {
+      console.log('error', err)
+    }
+    console.log("added 'admin' to users collection, with password=admin")
+  })
+}
+
 const initial = function initial() {
   Role.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {
@@ -28,37 +42,15 @@ const initial = function initial() {
 
       new Role({
         name: 'admin',
-      }).save((err) => {
-        if (err) {
-          console.log('error', err)
-        }
-        console.log("added 'admin' to roles collection")
       })
-
-      let roles
-      Role.find(
-        { name: { $in: ['admin', 'moderator', 'user'] } },
-        (err, roles) => {
-          if (err) {
-            console.log(error)
-            return
-          }
-          roles = roles.map((role) => role._id)
-          new User({
-            username: 'admin',
-            email: 'no email',
-            password: bcrypt.hashSync('admin', 8),
-            roles: roles,
-          }).save((err) => {
-            if (err) {
-              console.log('error', err)
-            }
-            console.log(
-              "added 'admin' to users collection, with password=admin"
-            )
-          })
-        }
-      )
+        .save()
+        .then(function (role) {
+          console.log("added 'admin' to roles collection")
+          createAdmin(role)
+        })
+        .catch(function (err) {
+          console.log('error', err)
+        })
     }
   })
 }
