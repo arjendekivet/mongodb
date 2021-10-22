@@ -1,4 +1,6 @@
+import bcrypt from 'bcryptjs'
 import db from '../models/index.js'
+
 const Role = db.role
 const User = db.user
 
@@ -45,7 +47,7 @@ const initial = function initial() {
           new User({
             username: 'admin',
             email: 'no email',
-            password: 'admin',
+            password: bcrypt.hashSync('admin', 8),
             roles: roles,
           }).save((err) => {
             if (err) {
