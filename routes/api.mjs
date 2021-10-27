@@ -40,9 +40,16 @@ router.get('/questions/filter/:filter', function (req, res, next) {
 
 // add a new question to database
 router.post('/questions', function (req, res, next) {
+  const userId = req.userId
+  req.body.created_by = userId
   Question.create(req.body)
     .then(function (question) {
-      res.send(question)
+      Question.populate(question, {
+        path: 'created_by',
+        select: 'username',
+      }).then(function (question) {
+        res.send(question)
+      })
     })
     .catch(next)
 })
