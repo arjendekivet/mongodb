@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const _ = require('lodash')
 const config = require('../config/auth.config.js')
 const db = require('../models')
 const User = db.user
@@ -16,7 +17,17 @@ verifyToken = (req, res, next) => {
       return res.status(401).send({ message: 'Unauthorized!' })
     }
     req.userId = decoded.id
-    next()
+
+    // cache users
+    User.findById(req.userId).then((user) => {
+      User.populate(user, {
+        path: 'roles',
+        select: 'name',
+      }).then(function (user) {
+        req.userRoles = _.map(user.roles, 'name')
+        next()
+      })
+    })
   })
 }
 

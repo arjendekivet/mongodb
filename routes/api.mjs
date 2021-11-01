@@ -1,4 +1,5 @@
 import express from 'express'
+import _ from 'lodash'
 import LayoutDefinition from '../models/layoutDefinition.mjs'
 import Question from '../models/question.mjs'
 
@@ -10,7 +11,16 @@ const router = express.Router()
 
 // get a list of questions from the database
 router.get('/questions', function (req, res, next) {
-  Question.find({}, null, { sort: { title: 1 }, collation: { locale: 'en' } })
+  let authFilter = {}
+  const isAdmin = _.indexOf(req.userRoles, 'admin') > -1
+  if (!isAdmin) {
+    authFilter = { created_by: req.userId }
+  }
+
+  Question.find(authFilter, null, {
+    sort: { title: 1 },
+    collation: { locale: 'en' },
+  })
     .then(function (questions) {
       res.send(questions)
     })
@@ -19,9 +29,22 @@ router.get('/questions', function (req, res, next) {
 
 // get one question by ID from the database
 router.get('/questions/:id', function (req, res, next) {
-  Question.findById(req.params.id)
+  let authFilter = {}
+  const isAdmin = _.indexOf(req.userRoles, 'admin') > -1
+  if (!isAdmin) {
+    authFilter = { created_by: req.userId }
+  }
+
+  const baseFilter = { _id: req.params.id }
+  const filter = { ...baseFilter, ...authFilter }
+
+  Question.findOne(filter)
     .then(function (questions) {
-      res.send(questions)
+      if (!questions) {
+        res.status(500).send({ message: 'Question not found ...' })
+      } else {
+        res.send(questions)
+      }
     })
     .catch(next)
 })
@@ -56,6 +79,8 @@ router.post('/questions', function (req, res, next) {
 
 // update a question in the database
 router.put('/questions/:id', function (req, res, next) {
+  const userId = req.userId
+  req.body.created_by = userId
   Question.findOneAndUpdate({ _id: req.params.id }, req.body)
     .then(function (question) {
       Question.findOne({ _id: req.params.id }).then(function (question) {
