@@ -80,13 +80,22 @@ router.post('/questions', function (req, res, next) {
 // update a question in the database
 router.put('/questions/:id', function (req, res, next) {
   const userId = req.userId
-  req.body.created_by = userId
+  req.body.updated_by = userId
   Question.findOneAndUpdate({ _id: req.params.id }, req.body)
     .then(function (question) {
       Question.findOne({ _id: req.params.id }).then(function (question) {
-        res.send(question)
+        question.updated_by.push(req.userId)
+        question.save().then((question) => {
+          Question.populate(question, {
+            path: 'updated_by',
+            select: 'username',
+          }).then(function (question) {
+            res.send(question)
+          })
+        })
       })
     })
+
     .catch(next)
 })
 

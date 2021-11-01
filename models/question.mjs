@@ -33,10 +33,12 @@ const QuestionSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
-    updated_by: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-    },
+    updated_by: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
