@@ -5,6 +5,22 @@ import Question from '../models/question.mjs'
 
 const router = express.Router()
 
+const modelMapper = { questions: Question, layoutdefinition: LayoutDefinition }
+
+router.get('/schema/:model', function (req, res, next) {
+  const model = req.params.model
+  if (!modelMapper[model]) {
+    res.status(500).send({ message: `Model: ${model} not found ...` })
+  }
+
+  const paths = modelMapper[model].schema.paths
+  const modelProps = _.mapValues(paths, (o) =>
+    _.pick(o, ['isRequired', 'instance'])
+  )
+
+  res.send(modelProps)
+})
+
 //
 // QUESTION
 //
