@@ -77,6 +77,19 @@ router.get('/questions/filter/:filter', function (req, res, next) {
     .catch(next)
 })
 
+// get questions by FILTER Type from the database
+router.get('/questions/filter/:filterType/:filter', function (req, res, next) {
+  const query = {}
+  Question.find({ [req.params.filterType]: req.params.filter }, null, {
+    sort: { title: 1 },
+    collation: { locale: 'en' },
+  })
+    .then(function (questions) {
+      res.send(questions)
+    })
+    .catch(next)
+})
+
 // add a new question to database
 router.post('/questions', function (req, res, next) {
   const userId = req.userId
