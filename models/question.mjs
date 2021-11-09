@@ -63,6 +63,6 @@ QuestionSchema.pre('findOneAndUpdate', function () {
   update.$inc.__v = 1
 })
 
-const Question = mongoose.model('questions', QuestionSchema)
+const Question = mongoose.model('Questions', QuestionSchema)
 
 export default Question

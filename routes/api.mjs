@@ -2,6 +2,7 @@ import express from 'express'
 import _ from 'lodash'
 import LayoutDefinition from '../models/layoutDefinition.mjs'
 import Question from '../models/question.mjs'
+import Answer from '../models/answer.mjs'
 
 const router = express.Router()
 
@@ -218,6 +219,17 @@ router.delete('/layoutdefinition/:ids', function (req, res, next) {
     .then(function (result) {
       res.send(result)
     })
+    .catch(next)
+})
+
+// add a new answer to database
+router.post('/answer', function (req, res, next) {
+  const userId = req.userId
+  req.body.created_by = userId
+  Answer.create(req.body)
+  .then(function (response) {
+    res.send(response)
+  })
     .catch(next)
 })
 
