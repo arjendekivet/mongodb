@@ -91,6 +91,32 @@ router.get('/questions/filter/:filterType/:filter', function (req, res, next) {
     .catch(next)
 })
 
+router.post('/questions/filter', function (req, res, next) {
+  let authFilter = {}
+  const isAdmin = _.indexOf(req.userRoles, 'admin') > -1
+  if (!isAdmin) {
+    authFilter = { created_by: req.userId }
+  }
+
+  const filter = {...req.body, ...authFilter}
+  Question.find(filter, null, {
+    sort: { title: 1 },
+    collation: { locale: 'en' },
+  })
+    .then(function (questions) {
+      res.send(questions)
+    })
+    .catch(next)
+})
+
+router.get('/questions/distinct/:field', function (req, res, next) {
+  Question.find().distinct(req.params.field)
+    .then(function (categories) {
+      res.send(_.compact(categories))
+    })
+    .catch(next)
+})
+
 // add a new question to database
 router.post('/questions', function (req, res, next) {
   const userId = req.userId
@@ -125,7 +151,6 @@ router.put('/questions/:id', function (req, res, next) {
         })
       })
     })
-
     .catch(next)
 })
 
