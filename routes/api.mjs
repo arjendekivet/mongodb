@@ -258,4 +258,17 @@ router.post('/answer', function (req, res, next) {
     .catch(next)
 })
 
+// get answers by FILTER Type from the database
+router.get('/answer/filter/:filterType/:filter', function (req, res, next) {
+  const query = {}
+  Answer.find({ [req.params.filterType]: req.params.filter }, null, {
+    sort: { title: 1 },
+    collation: { locale: 'en' },
+  })
+    .then(function (response) {
+      res.send(response)
+    })
+    .catch(next)
+})
+
 export default router
