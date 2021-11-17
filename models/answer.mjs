@@ -14,6 +14,12 @@ const CurrentSchema = new Schema(
     correct: {
       type: Boolean,
     },
+    percentage: {
+      type: String,
+    },
+    manual: {
+      type: Boolean,
+    },
     created_by: {
       type: Schema.Types.ObjectId,
       ref: 'User',

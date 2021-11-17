@@ -23,6 +23,9 @@ const QuestionSchema = new Schema(
     description: {
       type: String,
     },
+    description_long: {
+      type: String,
+    },
     answer: {
       type: String,
     },
@@ -34,6 +37,12 @@ const QuestionSchema = new Schema(
       ref: 'User',
     },
     updated_by: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    readers: [
       {
         type: Schema.Types.ObjectId,
         ref: 'User',
