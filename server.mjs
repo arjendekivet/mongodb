@@ -31,7 +31,7 @@ app.use(express.static('public'))
 
 app.use(express.json())
 
-// Your own super cool function
+// YverifyToken function
 const verifyToken = function (req, res, next) {
   console.log(req.path)
   if (req.path === '/api/auth/signin') {
