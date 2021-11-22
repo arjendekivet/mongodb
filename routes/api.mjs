@@ -271,4 +271,30 @@ router.get('/answer/filter/:filterType/:filter', function (req, res, next) {
     .catch(next)
 })
 
+router.get('/answer/distinct/:field', function (req, res, next) {
+  Answer.find().distinct(req.params.field)
+    .then(function (categories) {
+      res.send(_.compact(categories))
+    })
+    .catch(next)
+})
+
+router.post('/answer/filter', function (req, res, next) {
+  let authFilter = {}
+  const isAdmin = _.indexOf(req.userRoles, 'admin') > -1
+  if (!isAdmin) {
+    authFilter = { created_by: req.userId }
+  }
+
+  const filter = {...req.body, ...authFilter}
+  Answer.find(filter, null, {
+    sort: { title: 1 },
+    collation: { locale: 'en' },
+  })
+    .then(function (questions) {
+      res.send(questions)
+    })
+    .catch(next)
+})
+
 export default router

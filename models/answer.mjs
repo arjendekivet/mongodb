@@ -11,6 +11,9 @@ const CurrentSchema = new Schema(
     answer: {
       type: String,
     },
+    test_run_id: {
+      type: String,
+    },
     correct: {
       type: Boolean,
     },
